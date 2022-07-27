@@ -57,7 +57,7 @@ export function getUsersFail(error) {
   };
 }
 
-export function getUsersThunk(){
+export function getUsersThunk() {
   return async (dispatch) => {
     try {
       dispatch(getUsersStart());
@@ -66,5 +66,24 @@ export function getUsersThunk(){
     } catch (error) {
       dispatch(getUsersFail(error));
     }
-  }
+  };
+}
+
+const GET_USERS = "GET_USERS";
+
+export const GET_USERS_PENDING = 'GET_USERS_PENDING';
+export const GET_USERS_FULFILLED = 'GET_USERS_FULFILLED';
+export const GET_USERS_REJECTED = 'GET_USERS_REJECTED';
+
+
+
+
+export function getUsersPromise() {
+  return {
+    type: GET_USERS,
+    payload: async () => {
+      const res = await axios.get("https://api.github.com/users");
+      return res.data;
+    },
+  };
 }

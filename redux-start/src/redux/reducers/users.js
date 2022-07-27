@@ -1,4 +1,4 @@
-import { GET_USERS_FAIL, GET_USERS_START, GET_USERS_SUCCESS } from "../actions";
+import { GET_USERS_FAIL, GET_USERS_FULFILLED, GET_USERS_PENDING, GET_USERS_REJECTED, GET_USERS_START, GET_USERS_SUCCESS } from "../actions";
 
 const initialState = {
     loading: false,
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default function users(state = initialState, action) {
-    if (action.type === GET_USERS_START){
+    if (action.type === GET_USERS_START || action.type === GET_USERS_PENDING){
         return {
             ...state,
             loading: true,
@@ -21,6 +21,13 @@ export default function users(state = initialState, action) {
             data: action.data,
         };
     }
+    if (action.type === GET_USERS_FULFILLED){
+        return {
+            ...state,
+            loading: false,
+            data: action.payload,
+        };
+    }
     if (action.type === GET_USERS_FAIL){
         return {
             ...state,
@@ -28,6 +35,14 @@ export default function users(state = initialState, action) {
             error: action.error,
         };
     }
+    if (action.type === GET_USERS_REJECTED){
+        return {
+            ...state,
+            loading: false,
+            error: action.PAYLOAD,
+        };
+    }
+    
 
     return state; 
 }
