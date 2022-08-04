@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useRef  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../reducers/post";
 
@@ -7,10 +7,11 @@ function PostForm(props) {
   const { imagePaths } = useSelector((state) => state.post);
   const [text, setText] = useState("");
   const dispatch = useDispatch();
+  const imageInput = useRef();
 
   const onChangeText = useCallback((e) => {
     setText(e.target.value);
-  }, []);ㅇ
+  }, []);
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
@@ -18,6 +19,9 @@ function PostForm(props) {
     setText('');
   }, []);
 
+  const onClickImageUpload = useCallback(() => {
+    imageInput.current.click();
+  }, [imageInput.current]); 
   return (
     <form encType="multipart/form-data" onSubmit={onSubmit}>
       <input
@@ -27,8 +31,8 @@ function PostForm(props) {
         placeholder="자유롭게 작성해주세요!!"
       />
       <div>
-        <input type="file" multiple hidden />
-        <button>이미지 업로드</button>
+        <input type="file" multiple hidden ref={imageInput}/>
+        <button onClick={onClickImageUpload}>이미지 업로드</button>
         <button type="submit">업로드</button>
       </div>
       <div>
