@@ -1,14 +1,21 @@
 import Image from "next/image";
-import React, { useCallback } from "react";
-import { useSelector } from "react-redux";
-import useInput from "../hooks/useInput";
+import React, { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost } from "../reducers/post";
 
 function PostForm(props) {
   const { imagePaths } = useSelector((state) => state.post);
-  const [text, onChangeText] = useInput("");
+  const [text, setText] = useState("");
+  const dispatch = useDispatch();
+
+  const onChangeText = useCallback((e) => {
+    setText(e.target.value);
+  }, []);ㅇ
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
+    dispatch(addPost);
+    setText('');
   }, []);
 
   return (
