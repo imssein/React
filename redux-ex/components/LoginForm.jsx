@@ -9,7 +9,8 @@ function LoginForm(props) {
   const [id, onChangeId] = useInput("");
   const [password, onChangepassword] = useInput("");
 
-  const onSubmitForm = useCallback(() => {
+  const onSubmitForm = useCallback((e) => {
+    e.preventDefault();
     console.log(id, password);
     dispatch(loginAction({id, password}));
   }, [id, password]);
@@ -29,8 +30,9 @@ function LoginForm(props) {
           required
         />
       </div>
+
       <div>
-        <button type="submit">로그인</button>
+      <button type="submit">로그인</button>
         <Link href="/signup">
           <button>회원가입</button>
         </Link>
