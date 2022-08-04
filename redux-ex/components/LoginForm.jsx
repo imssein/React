@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import {loginAction} from '../reducers/index'
+import {loginAction} from '../reducers/user'
 import useInput from "../hooks/useInput";
 
 function LoginForm(props) {

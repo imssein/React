@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { logoutAction } from '../reducers/index';
+import { logoutAction } from '../reducers/user';
 
 function UserProfile(props) {
     const dispatch = useDispatch();
