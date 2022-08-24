@@ -4,24 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
-import ReduxContext from './contexts/reduxContext';
-//import { addTodo, completeTodo } from './redux/actions';
-
-//구독하다? store에 변경 사항이 생기는 것을 구독함 
-// 하나하나 getState로 출력할 필요없이 subscribe를 통해 변경된 상태 출력 가능
-// store.subscribe(() => {
-//   console.log(store.getState()); 
-// });
-
-// store.dispatch(addTodo('할일'))
-// store.dispatch(completeTodo((0)))
-
+import { Provider } from 'react-redux';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ReduxContext.Provider value={store}>
+    <Provider store={store}>
     <App />
-    </ReduxContext.Provider>
+    </Provider>
   </React.StrictMode>
 );
 
