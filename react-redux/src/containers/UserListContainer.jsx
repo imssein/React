@@ -1,8 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import UserList from "../components/UserList";
-import { getUsersPromise } from "../redux/actions";
-
+import { getUsersPromise } from "../redux/modules/users";
 function UserListContainer(props) {
   const users = useSelector((state) => state.users.data);
   const dispatch = useDispatch();
