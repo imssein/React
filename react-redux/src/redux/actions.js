@@ -1,3 +1,4 @@
+import axios from "axios";
 // todo 리스트에 todo를 추가하는 액션
 // 액션 타입(대문자 / _ )
 export const ADD_TODO = "ADD_TODO";
@@ -33,4 +34,49 @@ export function showComplete() {
   return {
     type: SHOW_COMPLETE,
   };
+}
+
+//users
+// 깃허브 API 호출을 시작하는 것을 의미 (로딩)
+export const GET_USERS_START = "GET_USERS_START";
+// 깃허브 API 호출에 대한 응답이 성공적으로 돌아온 경우 (로딩끝데이터세팅)
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
+// 깃허브 API 호출에 대한 응답이 실패로 돌아온 경우 (로딩끝에러세팅)
+export const GET_USERS_FAIL = "GET_USERS_FAIL";
+
+export function getUsersStart() {
+  return {
+    type: GET_USERS_START,
+  };
+}
+
+//인자값이 필요한지 생각
+export function getUsersSuccess(data) {
+  return {
+    type: GET_USERS_SUCCESS,
+    data,
+  };
+}
+
+export function getUsersFail(error) {
+  return {
+    type: GET_USERS_FAIL,
+    error,
+  };
+}
+
+
+export function getUsersThunk(){
+  // dispatch는 액션을 store에 전달하는 역할 
+  // dispatch를 컨테이너에서 처리했는데 이부분을 액션에서 처리 
+  return async (dispatch) => { 
+    try {
+      dispatch(getUsersStart());
+      const res = await axios.get("https://api.github.com/users");
+      dispatch(getUsersSuccess(res.data));
+    } catch (error) {
+      dispatch(getUsersFail(error));
+    }
+
+  }
 }
