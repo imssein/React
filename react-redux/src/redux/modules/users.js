@@ -1,4 +1,5 @@
 import axios from "axios";
+import {delay, put, call, takeEvery} from 'redux-saga/effects';
 // 액션 타입 정의
 export const GET_USERS_START = "redux-start/users/GET_USERS_START";
 export const GET_USERS_SUCCESS = "redux-start/users/GET_USERS_SUCCESS";
@@ -92,18 +93,59 @@ export function getUsersPromise() {
     },
   };
 }
+function sleep(ms){
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, ms)
 
+    })
+
+}
 // redux-thunk
 export function getUsersThunk() {
   // dispatch는 액션을 store에 전달하는 역할
   // dispatch를 컨테이너에서 처리했는데 이부분을 액션에서 처리
-  return async (dispatch) => {
+  return async (dispatch, getStae, { history }) => {
     try {
+    console.log(history);
       dispatch(getUsersStart());
+      // sleep 
+      await sleep(2000);
       const res = await axios.get("https://api.github.com/users");
       dispatch(getUsersSuccess(res.data));
+      history.push("/");
+
     } catch (error) {
       dispatch(getUsersFail(error));
     }
   };
+}
+
+// redux-saga
+const GET_USERS_SAGA_START = 'GET_USERS_SAGA_START';
+
+function* getUsersSaga(action) {
+    try {
+          //dispatch(getUsersStart());
+          yield put(getUsersStart());
+          // sleep 
+          //await sleep(2000);
+          yield delay(2000);
+          //const res = await axios.get("https://api.github.com/users");
+          const res = yield call(axios.get, "https://api.github.com/users") 
+          // dispatch(getUsersSuccess(res.data));    
+          yield put(getUsersSuccess(res.data))
+        } catch (error) {
+          //dispatch(getUsersFail(error));
+         yield put(getUsersFail(error))
+        }
+}
+export function getUsersSagaStart(){
+    return {
+        type: GET_USERS_SAGA_START,
+    }
+}
+export function* usersSaga(){
+    yield takeEvery(GET_USERS_SAGA_START, getUsersSaga);
 }
